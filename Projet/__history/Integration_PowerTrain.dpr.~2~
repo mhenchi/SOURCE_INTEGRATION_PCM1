@@ -1,0 +1,29 @@
+program Integration_PowerTrain;
+
+uses
+  Windows,
+  Forms,
+  Unit1 in '..\Forms\Unit1.pas' {Form1};
+
+{$R *.res}
+
+
+var
+ leMutex: THandle;
+ strAppli: string ='Integration_Power_Train';    // <---------- MODIFIER LE NOM DE L'APPLI ICI
+
+begin
+  leMutex := CreateMutex(nil,True,Pchar(strAppli));
+  if (leMutex <> 0) and (GetLastError = 0) then
+    begin
+      Application.Initialize;
+      Application.MainFormOnTaskbar := True;
+      Application.CreateForm(TForm1, Form1);
+      Application.Run;
+    end
+  else MessageBoxA(0,Pchar('Application en cours d''utilisation    '),Pchar('Contrôle '),MB_OK + MB_ICONEXCLAMATION + 0);
+
+end.
+
+
+

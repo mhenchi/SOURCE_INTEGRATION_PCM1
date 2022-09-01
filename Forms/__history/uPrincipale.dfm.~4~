@@ -1,0 +1,1407 @@
+object FMain: TFMain
+  Left = 313
+  Top = 175
+  BorderIcons = []
+  ClientHeight = 754
+  ClientWidth = 983
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  OnResize = FormResize
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label10: TLabel
+    Left = 4
+    Top = 30
+    Width = 979
+    Height = 22
+    Caption = 
+      '________________________________________________________________' +
+      '_________________________'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object LogoActia: TImage
+    Left = 766
+    Top = 0
+    Width = 212
+    Height = 46
+    Picture.Data = {
+      0954474946496D616765474946383961D3002E00D52E00BABABBDDDDDDB9B9BB
+      80C7A796969940AA7BC0E3D4858588F6F6F67C7C7FDCDCDDB0B0B2A8A8AAE4E4
+      E5CACACCEDEDEED3D3D4C2C2C3E0F1EAA0D5BD8E8E90F0F8F59F9FA1B0DCC860
+      B99150B18690CEB2D0EADF209C6530A37010955A70C09CEEEEEECBCBCCA0A0A2
+      E5E5E6B1B1B3F7F7F7C2C2C49797998E8E917D7D80D4D4D5008E4FFFFFFF7474
+      77FFFFFF00000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000021F9040100002E002C
+      00000000D3002E000006FF4097704814068EC8A472C96C3A9FD0A8744AAD564B
+      158376CBDD6E5CDDF0B622118725C534A8C56EBBDFF0B87C4EAFDBEFF8BC5EEF
+      1AACFE80818018128286802E198786136945217B91929394959675272E058B82
+      17139C81052E1EA080688E432297ABACADAE940015A5801518B32B1A06B71CA8
+      4429AFC0C1C2AF2317B71D2E1CB71B7EB31FBD4223C3D3D4D577292E1FB71F1B
+      B71E9AB717D02E26D6E6E7D6222E1DB7061AB718B2B715E327E8F7F8AE2685B7
+      89B713C666211B97AF60410293407C9A9561D42D09DA660D1817E092808B180F
+      4CA2C040000405201D08B0A0914D478C2853AA44C9E6804A067754968C23E001
+      8B9B0F60E639E0C2D6ACFF5CBB92B51B47C292809B485920D463C10182A4506F
+      36209020AAD5AB371DB0591035829DA35097BE49D0808502060416D8D48A8781
+      D059CCB6F19B35CE058A4A14AC8AB5C3C02656A80718FC1D7CB36459A814EAE4
+      8D6A214ED99302A896DD4B4745B759DF36CDF274AB21B4129512F8852AE00E85
+      C384A5B680901A2BDB03511FD4216BB5F41BC10B5AB06860F3006C08784ABC9B
+      15EFD68A5AB7348C834429C255DB74C0B6BEB9A0EA74AB25B942F54AC7796D38
+      BC5B10502A3871783B28FCCD0278CC21DC713A258DBFCA7D8E83BF08402A40CD
+      22F0F5A86CB5C0DF4D89CD319F5501B6C18257E395C596022CDC418226055468
+      E185164A3001861C5638FF81041D7658D74C7B24F0D4550AD0719F550F2C4062
+      0B0930B05F0B071060E38D047897140438DE98404BB1D1211A5629BEC142695C
+      3580C08F2DE4774700754529E59443AC31096B44CEA12369B3CD8165528DCDA1
+      5D52F5C5B1228A702CD8C251E369351E7474F4219771EA95D20834E54862C160
+      B2C5B167540814288975492150C7802C080AC79F5819FAC6034B3AD0400B109E
+      86C08B7164C2CE660B95D29071A7F4A24A242642756252710C69AAA291080655
+      8270C006559FA99E8A151C823940406281D9141F1D26C8330B723FE922505DBF
+      440261A15BDE4493556152F22552D1C631265265BE312D0B08341B211CF775EB
+      11B7BFD2514C7BA4C0D5FF4C29CF40234D24D752271D522F960A1570A1017A68
+      54ACB611EF91F3DE44191B164060930211602A0736119532C065A5F0B26929E2
+      4003402407D8BADB9A5151E62A60967C8C14AC6FC89A14AD256B2C5BC04AB9A2
+      8E32B3B8038FB0A5D0038D3D7B208A10CB946DCB02BE95F85C2D1CFF66DBC6B2
+      49EDDCB12B21CC05CA378AAC175029A210B407CB6CB19C9B1B566D4D09A14839
+      3A07A2FDB6F06FD651C17989429DB900AA4F0E8FA3C21E8B15CA24CB701E9874
+      C800D261325228B75177D877A7DD0A4F708302D4B130976200517AD0B6DD8D67
+      2205E7BF2C30292D637414ED18809477D5CA84E996B241C3A07CE03427DF8C73
+      571EDE1256241B2C7FFBFFB5BE74900D47ED83CD7E8965414D0C0A670C8D6325
+      1E7A4FE77BED65E72172567E07F946F2ADF96E8970331B5741D4A528070D7377
+      A8FADFA46DD45EEE1E42772EBA1BE25F173825E96966E7D4A088523A28A1A272
+      BE7DFFA15ABE55D6DB03EEC6C6AF37C4AE35AC0080DB1E92384E3C2C28E35098
+      9FFAE73F825D657F77601452801687BFE1647A14440A2BA044A5129AB008EFB2
+      83BD92B2801ED9087333F1200BE5608181B5A17237C1E056D6C786155ACE8569
+      B14AF3F6E0820B0CE088484C22120D2001253AF188CA99C0139D983F47E4C90E
+      3EE3A01B068794BD202D3691B191479EA23637682C73B92B601B7C16C01EEAE5
+      12EA101E2788E7A9050EFF6B1CA3AAC3BF2E358737B6817AB2A36154B45832E9
+      59D05412D4CDD22C112CED714F71C62AC540A0912CBF9DD16B71B04AB97CD63B
+      39E090053A341B0F3316154CA6C9709638D72CECF710D471A25DBDA8881DBE78
+      9336720D956D905CF5E47046CD7D0E31478B8A2D1584CB4920EE160F9C85C4C2
+      318E8BE911508964C319CB98004E5A0501A63CE48E8464C83D465340C594845B
+      1A078A0D0CA714C5E9473DEA20431664130EB4FC991C08604D6E3940879F0CE5
+      F3D444A34BCE529896689A37C0B19E4ED56F1CA031C858D28291167E53A1D460
+      5BF1B4D7C0454C041A7383A846370A87F43C92131AA01F2790414E4E7C011A45
+      E1A84A374ABA56CE09336E235AA94C150A3C65AE231CE70485677A71BC99FA14
+      1D25581728D249978F2EE24EBD00DF4F974A8D4CC80F141330282758398B2AA6
+      21944CCDEA251448D1E4400C14BC580E00C64AD6B29AF5AC684DAB5AD7CAD6B6
+      BAF5AD708D2B5C41D0C42926318A764D6219F28A44A4F62208003B}
+    Visible = False
+  end
+  object LogoCipi: TImage
+    Left = 771
+    Top = -1
+    Width = 201
+    Height = 46
+    Picture.Data = {
+      0954474946496D616765474946383961C5002E00F7FF00ACDBC6B7B7B8EDF5F1
+      0A925675C2A0C0C0C2EFF0F0BCE3D270C09CBDBDBF5CB78EB8B8BA2BA16D9A9A
+      9CEAEAEB13965CE8E8E9B5E1CD3DA979A3DBC293D1B6DBF1E742AB7DD2E5DCAA
+      AAACA1A1A331A371717174C8C8CA65BB95B2B2B4ADADAF7A7A7D66C59BCBE4D9
+      7D7D80A9A9AAB4B4B6656568F7F8F8F2F9F6A2A2A4EEEEEF028F504BB28499D2
+      B9F2F2F2DCDCDD969699C5C5C6EAF1EEFEFEFE6EBF9B9C9C9ED1EDE1E0E0E094
+      949685C9ABC6C6C89BDABE6F6F726B6B6EBEBEC0868688808082AFAFB0D9D9DA
+      ECF1EEA7A7A9A4A4A6C3E7D79E9EA1F5F8F798989B8C8C8F92CFB3DEDEE0B6DF
+      CD7B7B7E939395CDCDCEE6E6E7059052E1F3EBE7EDEA8DCCB0B1B1B3269F6A82
+      8284E2E2E3199960D6D6D77A7A7E78787B909093CDEBDEE9F4EF88888B49AF82
+      757578D4EEE3D3D3D4CFCFD08E8E91CBCBCC38A776209C65D4D4D5B3DDCBA3D7
+      C084848780808450B18679C4A3CFECDFC7E8D98A8A8D9CD4BB569176FDFDFD6C
+      6C709D9DA073737669696CEDEDEDE0F1EA0097544FBC8C727275BBBBBD589278
+      88CAADFAFAFA7070736E6E71F9F9F96C6C6FFBFBFBFCFCFCF7F7F769696D7676
+      79FBFBFCD8D8D979797C6D6D70F5F5F56A6A6DE7E7E88F8F92F4F4F477777ADA
+      DADBF8F8F8D1D1D2E1E1E289898CECECEC959598DBDBDCC2C2C4F3F3F487878A
+      8B8B8EA6A6A7DDDDDEF4F4F568686B858588EDEDEEFAFAFBF7F7F8DEDEDF43AC
+      7D80C7A7F9F9FABABABCBBBBBC6D6D71D7D7D8CCCCCDCECECFD0D0D1D2D2D38D
+      8D90D5D5D6E3E3E4F6F6F73FAA7A838386FDFEFD68BC9781C7A8F0F4F252B288
+      E9E9E99F9FA1F8FAF989CBAEB0E0CBE0EEE877C3A17FC6A7F8F8F9E4E4E5A3A3
+      A5DFEEE7F6F6F61E9C649B9B9D79A8937CCAA7EBEBEB8BD1B29797995EB8903B
+      A878EDF7F3F2F7F440B17F659B8344AC7EB1CFC2FCFDFCFCFDFD049957ABABAD
+      F1F1F1F1F3F2F5F6F5AFDFCAECECEDCBE1D7B2E2CDD7EEE49ED5BCE5EBE87AC5
+      A4E5F1ECC0E3D4C8E9DAE2F4ECB6E3CFA0D5BD4CBB8AE5E5E6A8C6B9BEE4D4C0
+      E7D5FBFDFCD8ECE3E6F4EE008E4FFFFFFF747477FFFFFF21F904010000FF002C
+      00000000C5002E000008FF00FF091C48F0DF227F08132A5CC8B0A1C38710234A
+      9C48B1A24584FF96F0DBC8B1234735FF78791CB911010A92240BAA8472B1A5CB
+      973063BEF4F4AF154A8F0A50ACB8D911001B9E1D55161427B3A8D1A3482506F8
+      B71328BF3A4D9C6ECCD6412A36A104C324DDCAB5AB4B5D22A4F2AB904C2A837F
+      57A426C32A70DC18AF70E3CA450842513BA957FEA5914A004C53A073D8FEE330
+      B7B0E1A30DF44AED00468A547975A40E482498D4E1CB982F062AE6D8E9040062
+      332990DA4DF03F2C9953AB7638EC9DD87234A4F2FAA7452A30C159DEAEDEAD1A
+      8822045235FC8366DB99581B8263F05E9E99D83F06526918976A8482D40794D9
+      6660CEDD3007019D81DEFF6B2355CA096152590856E4A4BBFBB8E3A23A355FD5
+      A9987F03A4B610BCE9BD7FAE6EFCF38B55FF3C205515E888158F60094C54081E
+      10E221CB06090112211E096D70211E3C50C890211116429186108A0811203C5C
+      680820FE80B8E18B788878218B0CC912614545E0A7568252C941C075A6350051
+      219398F0461E48E60103083D20E44492C424044492488601C2291E22A4472549
+      8E42D108496AE59021A7E811069595E8C1039754B699E4191B5009044391C090
+      644565FC63CC207CF6E9279F3990A1CE9F84029A081B85123A8F6092B4D7901E
+      3D0041421937F061291FC394F20142475C5A4F42255C6AA92EA504E0841E098D
+      1185A52A343311221C5CFFBA29431B9C72460242E8226A149F78B1AAA8C05A1A
+      CA19405C6A8098157A32CCA5158D034E1FD0462B6DB453FC33C5B4D842BBCF3F
+      D9669B8D602F38A487211994E2423FE8A68B6E09FE00724BBA9820C48303EAA6
+      FB0A2D0A79A26E2F1215D24022E9A2F12124B1307347BDE93683F0C21040F241
+      BAAB80B0D0189BA89B25443FFC338D051C77EC71C7AEF8C2CBC724737C801125
+      938CCD378205F0A82181A850AF29A6A0EB086A201C92EE76FE70B270BA306859
+      40BA4C5CFC2810F4C2BB100FA3CC72B0BAA6A882EE16B5FC5C6F1E85DC90AE0E
+      A82684C7D0EABA319115F8FD7553325F8845461C400AF644433CC0A248BA9280
+      424A030D90C201071446FF93EE2112EB9140BA0E60908BBA2E23344EBA5648B4
+      012DF5C65B212A15A7FB420019349047102FA4500306A063A06E02A163D0C808
+      8EA48B83421B5893BABA9E4CF4C2056A572115487B394583600674C1100F56CC
+      8DEE2C3580300922884C3282D8809891EE23342E8E6E008C88924ABA0DFAF344
+      BA33A006110FC4CC50AF030A5D7278BA3E8C02480F88F410C9284E44C2C8FCA2
+      D8DBC8FCF3EB213ABA92F8AE25089440D8EA2232064B54034822714A0764901F
+      A7C84330B368C80F3291AE1B84A107172B848820B18A741501215EE01EBFF640
+      8D7405C11F7A005B3F36612271F52269E243D71D2A440275F9A01186E81A0A57
+      949014A64B083442C806FF4A912E0EE870033E48D7D3FAF1C1883CE11F2C900A
+      1C90101E9E4CC01C620986601AB71040A8D01167E0C1439290AE44B4470F4944
+      D70D2281082508AF1F3F4088CCD6159142D8225D2AEC878720718E0A5E22880F
+      992313173202A9A12B6842AC0121F8078174250E2281289054766004A9AC800A
+      B1714A1A4C13C785402214E9B285211E0208C84D8D46D79B9E1360C08A74CD42
+      449550172A86448A74196004EA9A933FC898AE0600D221B144172146B01022A4
+      6B17FED3C3081A89AE203CC29112D944DAA44285B238E52CD071CA6DD8D28986
+      C0405D358048177691AE70FAE30CEAC204140288AE54280185834317335AC810
+      4060417A89C8C029D435FF400EA42B14FE8388E0D2F50940020213E9A2058D0A
+      018A74ADA1072A548E3817A10CA968E13952410015CC7613230846130DF180BA
+      88F9906FA26B11BE1BE8CF6E908751FAA313E9621744D0902E4B342303B04308
+      3BFBC18A5F3A04A6E822C2429CB0487425012185C8400CFB51800C4041691049
+      424816130C8EA2E41813900C122AD39040A84B378FF227BA6A41A312D6CB129B
+      28C0199AE40F5CA80B59BFDB9F304DF10C75F16C11CFD3E143DC8AAE44903421
+      4580182450080403A8CB00CF30643F3E11115004A3814039863C243384FA00C5
+      02A6D1E54260A1AE2400520F5DEB82247A891025A84B073A2800112A810897EA
+      C1ABE8A284181B020851FF58C26AD34388BAC8A7D75FBE365DA5B818209E892E
+      33B0A8103AC06D3FA210114A4CD6292B90412681B249E238A50A82E1834316A0
+      AE2D3422123CE041240C710984E0205DCB081C67636B82F64E22870A19464C1F
+      D2054D28F110F8D559BA168090D1A60B038630040F0CD18346FC52BEE8228A42
+      7296AE68F8A310C450577E0FF1464540C40933F89153F2625DA0C4A102629183
+      6074E0109CAA2B1638E0042792F00121E921B9E8D2048D98D90FFE3A840EE972
+      84D8E01684746562011E08B207CE852E502084A6E825811738E10562C4C27B08
+      C1B1CD348B1013F703707A400528D18506217B4008EAD2EB429CA3818C0E412C
+      466881647C2198283584FF0B8655171F842084DB16C01F97D8723FF280109FA5
+      EB9DDBAD203D2B240ABCA22B10A7D883A2F740DC7E0801210D40581484100574
+      092921DC55A370CFD78F5BB0A86AE8A2861316BD871EA76BB00E41033BFCC0EA
+      56BBDAD5F7D8C1AB67CDEA70FC631BB49EB57AD8420847D533057A465883CE2B
+      4C47ADB71F0E982D43C640E359310412604657161AB11022A28B150901F5CF62
+      871066A7CBD94E7A452F01514B9B45E36256EE072E1E12850BD84110F08EB7BC
+      E16D076DD863DEF886B734FEC18D7CE3DB1B8261EE437A200E08185A98E3B881
+      657C4088867B1A21376838216C2CC17E347C11545688311B6E096BFCF2111267
+      2C0A9D700B152CD1E2D4FF784127FDF1038B1302E30B8986221A3E0E7FF4621C
+      8968380710B19027489C10D6700810FE118A3B18FDE8483FBA400C90F4A61BFD
+      1FE42886D3935E0CD3DC19223DF04209E84CE740900204180A4220C6FE368414
+      60EC8110C543BC80F612180DD368FF802C188201B473D11F1A3A0228B8AE8940
+      58430F5962FBD8DDBE903CA09D147A48820FD0FED784FC00ED8158F9423EF08F
+      10FCE1F298CF3CE6D33105CD7BFEF2F470C7043EEFF9100449228628527B4DB0
+      07447808118B76A93F483D68851462D19318F8A2D9BA10D82B9AF7288CC42956
+      CF7A1E26E4F68ACEFD420CB1689EF380D46FDF00F41D628B2988E51E6A96CA3F
+      2C201505082613D4FE8FFFF88B72894E44C62903C88718A4228C1354F1266D10
+      CC0DC64FFF98E0E21FD7904A2BEE6020A750001FE5810C824171F55780156105
+      89A006524101362016C8E00A66611AEB6680143811B9400662710115E5141725
+      01D1F17D1518821071092EA011E8B77DDD770262010082F10822F8820C8103FF
+      801E4EA1008400593CB10E11501E6020180A068340180089808337D102736049
+      60A061D4651A7400844E2804F02016FAA0843C911769E11471C0284E08848D70
+      08C660518AE114BF900D62D1041FB585309818EBA7408A5086A0015D28201842
+      85862218087720166DF0864E8102A3E114AD601AB3448721580AAE21157D001C
+      4E211C0AE814AE601A010101003B}
+  end
+  object lblTitre: TLabel
+    Left = 5
+    Top = 4
+    Width = 756
+    Height = 36
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Poste Multi Integration '
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -32
+    Font.Name = 'Arial'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+  end
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 55
+    Width = 977
+    Height = 70
+    Caption = 'Produit'
+    TabOrder = 0
+    object Label3: TLabel
+      Left = 35
+      Top = 13
+      Width = 46
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Index'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 107
+      Top = 13
+      Width = 118
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'R'#233'f'#233'rence'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 230
+      Top = 13
+      Width = 363
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'D'#233'signation'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 616
+      Top = 11
+      Width = 330
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Num'#233'ro de s'#233'rie  '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+    end
+    object txtIndex: TCDEdit
+      Left = 10
+      Top = 31
+      Width = 99
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtRefActia: TCDEdit
+      Left = 116
+      Top = 31
+      Width = 121
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtDesignation: TCDEdit
+      Left = 245
+      Top = 31
+      Width = 373
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtNewNumSerieProduit: TCDEdit
+      Left = 633
+      Top = 31
+      Width = 333
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 3
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+  end
+  object grpPassFail: TGroupBox
+    Left = 834
+    Top = 134
+    Width = 152
+    Height = 143
+    TabOrder = 1
+    object Panel1: TPanel
+      Left = 3
+      Top = 8
+      Width = 145
+      Height = 100
+      Ctl3D = False
+      ParentCtl3D = False
+      TabOrder = 0
+      object lblPassFail: TLabel
+        Left = 2
+        Top = 17
+        Width = 140
+        Height = 60
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Pass'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clTeal
+        Font.Height = -48
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Visible = False
+      end
+    end
+    object cmdScan2: TButton
+      Left = 5
+      Top = 112
+      Width = 142
+      Height = 24
+      TabOrder = 1
+      Visible = False
+      OnClick = cmdScan2Click
+    end
+  end
+  object grpArticle1: TGroupBox
+    Left = 7
+    Top = 135
+    Width = 821
+    Height = 52
+    Caption = 'Element1'
+    TabOrder = 2
+    object lblDesignation1: TLabel
+      Left = 8
+      Top = 19
+      Width = 220
+      Height = 20
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'D'#233'signation'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object shp1: TShape
+      Left = 772
+      Top = 18
+      Width = 25
+      Height = 20
+      Shape = stCircle
+      Visible = False
+    end
+    object txtPN1: TCDEdit
+      Left = 235
+      Top = 17
+      Width = 135
+      Height = 26
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtIndex1: TCDEdit
+      Left = 371
+      Top = 17
+      Width = 112
+      Height = 27
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtNumeroSerie1: TCDEdit
+      Left = 484
+      Top = 15
+      Width = 255
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      OnKeyPress = ValidationManuelle
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+  end
+  object grpArticle2: TGroupBox
+    Left = 7
+    Top = 190
+    Width = 821
+    Height = 52
+    Caption = 'Element2'
+    TabOrder = 3
+    object lblDesignation2: TLabel
+      Left = 8
+      Top = 18
+      Width = 220
+      Height = 20
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'D'#233'signation'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object shp2: TShape
+      Left = 772
+      Top = 19
+      Width = 25
+      Height = 20
+      Shape = stCircle
+      Visible = False
+    end
+    object txtPN2: TCDEdit
+      Left = 235
+      Top = 16
+      Width = 135
+      Height = 26
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtIndex2: TCDEdit
+      Left = 371
+      Top = 16
+      Width = 112
+      Height = 27
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtNumeroSerie2: TCDEdit
+      Left = 484
+      Top = 14
+      Width = 255
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      OnKeyPress = ValidationManuelle
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+  end
+  object grpInfo: TGroupBox
+    Left = 7
+    Top = 666
+    Width = 979
+    Height = 91
+    Caption = 'Info'
+    TabOrder = 4
+    object lblInfo: TLabel
+      Left = 4
+      Top = 15
+      Width = 933
+      Height = 70
+      Align = alCustom
+      AutoSize = False
+      Color = clSilver
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsItalic]
+      ParentColor = False
+      ParentFont = False
+      WordWrap = True
+    end
+    object Panel2: TPanel
+      Left = 936
+      Top = 15
+      Width = 37
+      Height = 70
+      Align = alCustom
+      TabOrder = 0
+      object Loupe: TImage
+        Left = 2
+        Top = 3
+        Width = 35
+        Height = 63
+        Center = True
+        Picture.Data = {
+          055449636F6E0000010001002020100000000000E80200001600000028000000
+          2000000040000000010004000000000080020000000000000000000000000000
+          0000000000000000000080000080000000808000800000008000800080800000
+          C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000
+          FFFFFF0000000000000000000000000000000000000000000000000000000000
+          0040000000000000000000000000000004EFC000000000000000000000000000
+          4EFEC000000000000000000000000004EFECC00000000000000000000000004E
+          FECC00000000000000000000000004EFECC00000000000000000000000004EFE
+          CC00000000000000000000000004EFECC00000000000000000000000004EFECC
+          000000000000000000000000087FECC000000000000000000000000087F7CC00
+          0000000000000887888888008F78800000000000000087777000000000880000
+          000000000008777006FEFEFE000000000000000000877706EFEFEFEFE6000000
+          0000000008FF706EFEFEFEFEFE6000000000000008FF06EFEFFFEFEFEF600000
+          000000008FF06EFEFFFEFEFEFE670000000000008FF06FEFFFEFEFEFEF670000
+          000000008F06FEFFFFFEFEFEFE670000000000008F06EFFFFFEFEFEFEF670000
+          000000008F06FEFFFEFEFEFEFE670000000000008706EFFFFFEFEFEFE6F70000
+          000000008706FEFFFEFEFEFEF6F70000000000000806EFEFFFEFEFEF6FF00000
+          000000000806FEFEFEFEFEF6FFF000000000000000806FEFEFEFEF677F000000
+          000000000000666EFEFE66777000000000000000000008866666777700000000
+          0000000000000008888887000000000000000000000000000000000000000000
+          00000000FFFFFFFFFFFFFFC7FFFFFF83FFFFFF03FFFFFE03FFFFFC07FFFFF80F
+          FFFFF01FFFFFE03FFFFFC07FFFFF80FFFE0301FFF80003FFF00007FFE0000FFF
+          C0000FFF80000FFF80000FFF000007FF000007FF000007FF000007FF000007FF
+          000007FF000007FF80000FFF80000FFFC0001FFFE0003FFFF0007FFFF800FFFF
+          FE03FFFF}
+        Transparent = True
+        OnClick = LoupeClick
+      end
+    end
+  end
+  object grpArticle3: TGroupBox
+    Left = 7
+    Top = 245
+    Width = 821
+    Height = 52
+    Caption = 'Element3'
+    TabOrder = 5
+    object lblDesignation3: TLabel
+      Left = 8
+      Top = 18
+      Width = 220
+      Height = 20
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'D'#233'signation'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object shp3: TShape
+      Left = 772
+      Top = 17
+      Width = 25
+      Height = 20
+      Shape = stCircle
+      Visible = False
+    end
+    object txtPN3: TCDEdit
+      Left = 235
+      Top = 16
+      Width = 135
+      Height = 26
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtIndex3: TCDEdit
+      Left = 371
+      Top = 16
+      Width = 112
+      Height = 27
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtNumeroSerie3: TCDEdit
+      Left = 484
+      Top = 14
+      Width = 255
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      OnKeyPress = ValidationManuelle
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+  end
+  object grpArticle4: TGroupBox
+    Left = 7
+    Top = 300
+    Width = 821
+    Height = 52
+    Caption = 'Element4'
+    TabOrder = 6
+    object lblDesignation4: TLabel
+      Left = 8
+      Top = 19
+      Width = 220
+      Height = 20
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'D'#233'signation'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object shp4: TShape
+      Left = 772
+      Top = 20
+      Width = 25
+      Height = 20
+      Shape = stCircle
+      Visible = False
+    end
+    object txtPN4: TCDEdit
+      Left = 235
+      Top = 17
+      Width = 135
+      Height = 26
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtIndex4: TCDEdit
+      Left = 371
+      Top = 17
+      Width = 112
+      Height = 27
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtNumeroSerie4: TCDEdit
+      Left = 484
+      Top = 15
+      Width = 255
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      OnKeyPress = ValidationManuelle
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+  end
+  object grpArticle5: TGroupBox
+    Left = 7
+    Top = 355
+    Width = 821
+    Height = 52
+    Caption = 'Element5'
+    TabOrder = 7
+    object lblDesignation5: TLabel
+      Left = 8
+      Top = 18
+      Width = 220
+      Height = 20
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'D'#233'signation'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object shp5: TShape
+      Left = 772
+      Top = 17
+      Width = 25
+      Height = 20
+      Shape = stCircle
+      Visible = False
+    end
+    object txtPN5: TCDEdit
+      Left = 235
+      Top = 16
+      Width = 135
+      Height = 26
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtIndex5: TCDEdit
+      Left = 371
+      Top = 16
+      Width = 112
+      Height = 27
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtNumeroSerie5: TCDEdit
+      Left = 484
+      Top = 15
+      Width = 255
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      OnKeyPress = ValidationManuelle
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+  end
+  object grpArticle6: TGroupBox
+    Left = 7
+    Top = 410
+    Width = 821
+    Height = 52
+    Caption = 'Element6'
+    TabOrder = 8
+    object lblDesignation6: TLabel
+      Left = 8
+      Top = 20
+      Width = 220
+      Height = 20
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'D'#233'signation'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object shp6: TShape
+      Left = 772
+      Top = 21
+      Width = 25
+      Height = 20
+      Shape = stCircle
+      Visible = False
+    end
+    object txtPN6: TCDEdit
+      Left = 235
+      Top = 18
+      Width = 135
+      Height = 26
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtIndex6: TCDEdit
+      Left = 371
+      Top = 17
+      Width = 112
+      Height = 27
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtNumeroSerie6: TCDEdit
+      Left = 484
+      Top = 16
+      Width = 255
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      OnKeyPress = ValidationManuelle
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+  end
+  object grpArticle7: TGroupBox
+    Left = 7
+    Top = 465
+    Width = 821
+    Height = 52
+    Caption = 'Element7'
+    TabOrder = 9
+    object lblDesignation7: TLabel
+      Left = 8
+      Top = 19
+      Width = 220
+      Height = 20
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'D'#233'signation'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object shp7: TShape
+      Left = 772
+      Top = 18
+      Width = 25
+      Height = 20
+      Shape = stCircle
+      Visible = False
+    end
+    object txtPN7: TCDEdit
+      Left = 235
+      Top = 17
+      Width = 135
+      Height = 26
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtIndex7: TCDEdit
+      Left = 371
+      Top = 17
+      Width = 112
+      Height = 27
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtNumeroSerie7: TCDEdit
+      Left = 484
+      Top = 15
+      Width = 255
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      OnKeyPress = ValidationManuelle
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+  end
+  object grpArticle8: TGroupBox
+    Left = 7
+    Top = 520
+    Width = 821
+    Height = 52
+    Caption = 'Element8'
+    TabOrder = 10
+    object lblDesignation8: TLabel
+      Left = 8
+      Top = 20
+      Width = 220
+      Height = 20
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'D'#233'signation'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object shp8: TShape
+      Left = 772
+      Top = 21
+      Width = 25
+      Height = 20
+      Shape = stCircle
+      Visible = False
+    end
+    object txtPN8: TCDEdit
+      Left = 235
+      Top = 18
+      Width = 135
+      Height = 26
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtIndex8: TCDEdit
+      Left = 371
+      Top = 18
+      Width = 112
+      Height = 27
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+    object txtNumeroSerie8: TCDEdit
+      Left = 485
+      Top = 16
+      Width = 255
+      Height = 30
+      TabStop = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      OnKeyPress = ValidationManuelle
+      OnlyNumbers = False
+      TextAlignment = taCenter
+    end
+  end
+  object pnlCnx: TPanel
+    Left = 9
+    Top = 760
+    Width = 976
+    Height = 28
+    TabOrder = 11
+    Visible = False
+    object Label6: TLabel
+      Left = 3
+      Top = 3
+      Width = 118
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Connexions :'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lblVisim: TLabel
+      Left = 119
+      Top = 4
+      Width = 140
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Color = clSilver
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+    object lblOracle: TLabel
+      Left = 412
+      Top = 3
+      Width = 140
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Color = clSilver
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+    object lblAccess: TLabel
+      Left = 263
+      Top = 4
+      Width = 140
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Color = clSilver
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+    object lblAutomate: TLabel
+      Left = 564
+      Top = 3
+      Width = 140
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Color = clSilver
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object grpAutomate: TGroupBox
+    Left = 7
+    Top = 580
+    Width = 978
+    Height = 85
+    Caption = 'Communication'
+    TabOrder = 12
+    object grpAttenteSanction: TGroupBox
+      Left = 555
+      Top = 14
+      Width = 413
+      Height = 63
+      Caption = 'Reception'
+      TabOrder = 0
+      object shpMiniSanction: TShape
+        Left = 372
+        Top = 27
+        Width = 17
+        Height = 17
+        Shape = stCircle
+      end
+      object lblSanction: TLabel
+        Left = 4
+        Top = 23
+        Width = 349
+        Height = 25
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'ATTENTE COMPTE RENDU'
+        Color = clBtnFace
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Arial'
+        Font.Style = [fsItalic]
+        ParentColor = False
+        ParentFont = False
+        WordWrap = True
+      end
+      object shpSanction: TShape
+        Left = 360
+        Top = 13
+        Width = 41
+        Height = 41
+        Shape = stCircle
+        Visible = False
+      end
+    end
+    object grpCtrlOk: TGroupBox
+      Left = 292
+      Top = 14
+      Width = 257
+      Height = 63
+      Caption = 'Emission'
+      TabOrder = 1
+      object shpMiniControle: TShape
+        Left = 216
+        Top = 27
+        Width = 17
+        Height = 17
+        Shape = stCircle
+      end
+      object shpControle: TShape
+        Left = 204
+        Top = 13
+        Width = 41
+        Height = 41
+        Shape = stCircle
+        Visible = False
+      end
+      object lblTempo: TLabel
+        Left = 43
+        Top = 18
+        Width = 158
+        Height = 26
+        AutoSize = False
+        Caption = 'AUTORISATION'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Arial'
+        Font.Style = [fsItalic]
+        ParentFont = False
+        WordWrap = True
+      end
+      object Label5: TLabel
+        Left = 31
+        Top = 38
+        Width = 174
+        Height = 17
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Fermeture contact relais interface'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+      end
+    end
+    object grpPhase: TGroupBox
+      Left = 7
+      Top = 14
+      Width = 279
+      Height = 63
+      Caption = 'Phase'
+      TabOrder = 2
+      object lblPhase: TLabel
+        Left = 4
+        Top = 19
+        Width = 269
+        Height = 32
+        Alignment = taCenter
+        AutoSize = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlue
+        Font.Height = -27
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Visible = False
+      end
+      object lblPhase2: TLabel
+        Left = 8
+        Top = 19
+        Width = 269
+        Height = 32
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'SCAN PHASE 2'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlue
+        Font.Height = -27
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Visible = False
+      end
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 3
+    Top = 28
+    object mnuInitialiser: TMenuItem
+      Caption = 'Initialiser'
+      OnClick = mnuInitialiserClick
+    end
+    object TMenuItem
+    end
+    object mnuReprint: TMenuItem
+      Caption = 'R'#233'imprimer'
+      OnClick = mnuReprintClick
+    end
+    object TMenuItem
+    end
+    object mnuRetour: TMenuItem
+      Caption = 'Retour'
+      OnClick = mnuRetourClick
+    end
+  end
+  object TimerScrute: TTimer
+    Enabled = False
+    Interval = 15
+    OnTimer = TimerScruteTimer
+    Left = 56
+    Top = 28
+  end
+  object TimerClignoter: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = TimerClignoterTimer
+    Left = 164
+    Top = 28
+  end
+  object TimerAutorisation: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = TimerAutorisationTimer
+    Left = 192
+    Top = 28
+  end
+end

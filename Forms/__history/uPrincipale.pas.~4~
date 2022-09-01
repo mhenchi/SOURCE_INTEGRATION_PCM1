@@ -1,0 +1,1750 @@
+unit uPrincipale;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Menus, StdCtrls, ExtCtrls, CDEdit, StrUtils, GIFImg;
+
+type
+  TFMain = class(TForm)
+    Label10: TLabel;
+    LogoActia: TImage;
+    LogoCipi: TImage;
+    lblTitre: TLabel;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label3: TLabel;
+    Label2: TLabel;
+    txtIndex: TCDEdit;
+    txtRefActia: TCDEdit;
+    txtDesignation: TCDEdit;
+    grpPassFail: TGroupBox;
+    Panel1: TPanel;
+    lblPassFail: TLabel;
+    grpArticle1: TGroupBox;
+    lblDesignation1: TLabel;
+    shp1: TShape;
+    txtPN1: TCDEdit;
+    txtIndex1: TCDEdit;
+    txtNumeroSerie1: TCDEdit;
+    grpArticle2: TGroupBox;
+    lblDesignation2: TLabel;
+    shp2: TShape;
+    txtPN2: TCDEdit;
+    txtIndex2: TCDEdit;
+    txtNumeroSerie2: TCDEdit;
+    grpInfo: TGroupBox;
+    lblInfo: TLabel;
+    grpArticle3: TGroupBox;
+    lblDesignation3: TLabel;
+    shp3: TShape;
+    txtPN3: TCDEdit;
+    txtIndex3: TCDEdit;
+    txtNumeroSerie3: TCDEdit;
+    grpArticle4: TGroupBox;
+    lblDesignation4: TLabel;
+    shp4: TShape;
+    txtPN4: TCDEdit;
+    txtIndex4: TCDEdit;
+    txtNumeroSerie4: TCDEdit;
+    grpArticle5: TGroupBox;
+    lblDesignation5: TLabel;
+    shp5: TShape;
+    txtPN5: TCDEdit;
+    txtIndex5: TCDEdit;
+    txtNumeroSerie5: TCDEdit;
+    grpArticle6: TGroupBox;
+    lblDesignation6: TLabel;
+    shp6: TShape;
+    txtPN6: TCDEdit;
+    txtIndex6: TCDEdit;
+    txtNumeroSerie6: TCDEdit;
+    grpArticle7: TGroupBox;
+    lblDesignation7: TLabel;
+    shp7: TShape;
+    txtPN7: TCDEdit;
+    txtIndex7: TCDEdit;
+    txtNumeroSerie7: TCDEdit;
+    grpArticle8: TGroupBox;
+    lblDesignation8: TLabel;
+    shp8: TShape;
+    txtPN8: TCDEdit;
+    txtIndex8: TCDEdit;
+    txtNumeroSerie8: TCDEdit;
+    MainMenu1: TMainMenu;
+    mnuInitialiser: TMenuItem;
+    mnuReprint: TMenuItem;
+    mnuRetour: TMenuItem;
+    pnlCnx: TPanel;
+    Label6: TLabel;
+    lblVisim: TLabel;
+    lblOracle: TLabel;
+    lblAccess: TLabel;
+    Panel2: TPanel;
+    Loupe: TImage;
+    TimerScrute: TTimer;
+    grpAutomate: TGroupBox;
+    grpAttenteSanction: TGroupBox;
+    shpMiniSanction: TShape;
+    lblSanction: TLabel;
+    shpSanction: TShape;
+    grpCtrlOk: TGroupBox;
+    shpMiniControle: TShape;
+    shpControle: TShape;
+    lblTempo: TLabel;
+    Label5: TLabel;
+    Label4: TLabel;
+    txtNewNumSerieProduit: TCDEdit;
+    TimerClignoter: TTimer;
+    TimerAutorisation: TTimer;
+    grpPhase: TGroupBox;
+    lblPhase: TLabel;
+    lblAutomate: TLabel;
+    cmdScan2: TButton;
+    lblPhase2: TLabel;
+    procedure mnuRetourClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure mnuInitialiserClick(Sender: TObject);
+    procedure LoupeClick(Sender: TObject);
+    procedure mnuReprintClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure TimerScruteTimer(Sender: TObject);
+    procedure TimerClignoterTimer(Sender: TObject);
+    procedure TimerAutorisationTimer(Sender: TObject);
+    procedure ValidationManuelle(Sender: TObject; var Key: Char);
+    procedure cmdScan2Click(Sender: TObject);
+  
+
+
+  private
+    blnResize             : boolean;
+    intNbreArticle        : integer;
+    intCountArticle       : integer;
+
+    intDebutCount         : integer;
+    intNbreArticlePhase2  : integer;
+    NbreArticleDeLaPhase  : integer;
+
+    strLeBuffer : string;
+    intClignoter: integer;
+    blnBreakTimer      : boolean;
+    blnDepartPhase2    : boolean;
+    blnFail            : boolean;
+
+    iC_DeBug       : integer;  // rajout pour compter les passages du cycle d'attente
+
+    function ListerArticleAssocie: boolean;
+    procedure MisaAjourIHM(intNbre: integer);
+    procedure lblInfoColor(strInfos: string);
+    function VerificationNumeroSerie(strSN: string): boolean;
+    procedure InitIHM;
+    function TraitementAppli: boolean;
+    function EnregistrementData(Statut: string): boolean;
+    function VISIM_QuickCompleteArticle(intIc: integer): boolean;
+    procedure Phase1ToPhase2;
+    procedure InitialisePhase(intEtape: integer);
+
+    procedure DoLoop;
+    function VISIM_Start: boolean;
+    function VISIM_NcLogComplete(strNcCode: string): boolean;
+    function VISIM_Complete: boolean;
+
+  public
+    procedure DataDuPortCom(strScan: string);
+
+  end;
+
+var
+  FMain: TFMain;
+
+implementation
+
+{$R *.dfm}
+
+uses uGlobale, uSelectionProduit, uFonctions, uConnexionBdd, u1PortCom,
+uPrintZPL, UInterlock, uDialog, uReprintLabel,  uLogin, uSmema_Carte, MMDebug;
+
+var
+ memoSeq: byte;
+ blnStatutIn5         : boolean = true;   // Permet les actions que sur le front montant du contact IN5 (Boitier Inf)
+
+
+
+//******************************************************************************
+// Affichage de l'état des connexions
+function AfficheEtatConnexions : boolean;
+var
+  iCount : word;
+begin
+  iCount := 0;
+  result := false;
+  with FMain do
+    begin
+      lblOracle.Caption   := '';
+      lblAccess.Caption   := '';
+      lblVisim.Caption    := '';
+      lblAutomate.Caption := '';
+
+      if not CnxBdd.ZCnxOracle.Connected then
+        begin
+          lblOracle.Caption := 'ORACLE désactivé';
+          inc(icount);
+        end;
+
+      if not rProduit.blnPrdVisim then
+        begin
+          lblVisim.Caption := 'VISIM désactivé';
+          inc(icount);
+        end;
+
+      if not rProduit.Automate then
+        begin
+          lblAutomate.Caption := 'Automate Désactivé';
+          inc(icount);
+        end;
+   end;
+
+  result := icount >= 1;
+  if result then
+    begin
+      FMain.Height := FMain.Height + 20;
+      FMain.pnlCnx.Visible := true;
+      FMain.pnlCnx.Left := 4;
+      FMain.pnlCnx.Top  := FMain.grpInfo.Top + FMain.grpInfo.Height + 2;
+    end
+   else FMain.pnlCnx.Visible := false;
+end;
+
+//******************************************************************************
+//
+procedure TFMain.FormCreate(Sender: TObject);
+begin
+
+  // Infos des labels et du logo
+  Caption := 'POSTE INTEGRATION ' +  IntToStr(intIdPoste)  + ' / Version : ' + VersionIni;
+  lblTitre.Caption            := rProduit.Designation2;
+  logoActia.Visible := blnLogoActia;
+  logoCipi.Visible := not blnLogoActia;
+
+  // Afficher les infos du produit sélectionné
+  with rproduit do
+    begin
+      txtIndex.Text               := IndexVisim;
+      txtRefActia.Text            := CodeActia;
+      txtDesignation.Text         := Designation1;
+    end;
+
+
+   // initialiser la gestion des phases
+   bln2Phase        := false;
+   blnResize        := false;
+   
+  // Liste de tous les articles associés au produit sélectionné
+  ListerArticleAssocie;
+
+  // Ajuster l'affichage au nombre d'articles
+  MisaAjourIHM(intNbreArticle);
+
+  // Etat de la com avec Automate
+  grpAutomate.Visible := rProduit.Automate;
+  // cmdScan2.Visible    := rProduit.Automate;
+
+
+  // Init Phase 1
+  if bln2Phase then
+    InitialisePhase(1)
+  else
+    begin
+      grpPhase.Visible := false ;
+      grpCtrlOK.Left := 136;
+      grpAttenteSanction.Left := 408;
+    end;
+
+  // Afficher l'état des connexions
+  pnlCnx.Visible := AfficheEtatConnexions;
+
+  // Afficher ou non le menu réimpression
+  mnuReprint.Visible := blnImpressionActive;
+
+  // Activer lecteur code barre
+  blnEtatLecteurCB := true;
+
+
+
+
+      DB_WriteStrLn(0, 'Programme POWER TRAIN');
+      DB_WriteStrLn(0, 'sequence := 0');
+     
+
+  sequence := 0;
+  TimerScrute.Enabled := true;
+
+
+
+
+end;
+
+//******************************************************************************
+//
+procedure TFMain.InitialisePhase(intEtape: integer);
+var
+  ic: integer;
+begin
+  case intEtape of
+    1:begin
+        if rproduit.Automate then
+          begin
+            intDebutCount := 1;
+            lblPhase.Font.Color := clBlue;
+            lblPhase.Caption := 'Phase 1';
+            NbreArticleDeLaPhase := intNbreArticle - intNbreArticlePhase2;
+            for iC := intDebutCount to intNbreArticle do
+              begin
+                if rArticle[ic].Phase = 1 then
+                  TGroupBox(FMain.FindComponent('grpArticle' + IntToStr(iC))).Visible := true
+                else
+                  TGroupBox(FMain.FindComponent('grpArticle' + IntToStr(iC))).Visible := false;
+              end;
+           end
+        else
+          begin
+            intDebutCount := 1;
+            NbreArticleDeLaPhase := intNbreArticle;
+          end;
+      end;
+      
+    2:begin
+        intDebutCount  := (intNbreArticle - intNbreArticlePhase2) + 1;
+        NbreArticleDeLaPhase := intNbreArticle;
+
+        if rproduit.Automate then
+          for iC := intDebutCount to NbreArticleDeLaPhase do
+            TGroupBox(FMain.FindComponent('grpArticle' + IntToStr(iC))).Visible := true;
+      end;
+  end;
+
+end;
+
+
+//******************************************************************************
+// Afficher la liste des articles à associer pour le produit sélectionné
+function TFMain.ListerArticleAssocie: boolean;
+var
+  iC            : integer;
+  DIndex        : TEdit;
+  DPartNumber   : TEdit;
+  DTxtSerie     : TEdit;
+  DDesignation  : TLabel;
+  DGrpArticle   : TGroupBox;
+
+
+begin
+  result := false;
+  intNbreArticlePhase2 := 0;
+  with CnxBdd.ZSelectFdb1 do
+    begin
+      sql.Clear;
+      sql.Add('SELECT * FROM LISTE_ARTICLE');
+      sql.Add(' WHERE ASSOCIATION LIKE ' + quotedStr('%' + rProduit.IndexVisim + '%'));
+      sql.Add(' ORDER BY PHASE ASC, FAMILLE ASC');
+      Active := true;
+
+      // Afficher le nombre d'article à associer
+      intNbreArticle := RecordCount;
+
+      if intNbreArticle <> 0 then
+        begin
+
+          // La position 0 du tableau n'est pas prise en compte dans la dimension du tableau des articles.
+          setLength(rArticle, intNbreArticle + 1);
+
+          iC := 1;
+          while (not Eof) do
+            begin
+              with rArticle[iC] do
+                begin
+                  idArticle               := fieldByName('ID_ARTICLE').AsString;
+                  CodeActia               := fieldByName('PN_ACTIA').AsString;
+                  Designation             := fieldByName('DESIGNATION').AsString;
+                  blnArticleVisim         := IntToBoolean(FieldByName('VISIM').AsInteger); //
+                  Operation               := fieldByName('OPERATION').AsString;
+                  Ressource               := fieldByName('RESSOURCE').AsString;
+                  PositionIndex           := fieldByName('POS_INDEX').AsString;
+                  ControleDoublon         := fieldByName('CTRL_DOUBLON').AsInteger;
+                  NomColonneArticle       := fieldByName('NOM_COL_ASSOCIE').AsString;
+                  Famille                 := fieldByName('FAMILLE').AsInteger;
+                  Phase                   := fieldByName('PHASE').AsInteger;
+                  blnSaisieManuelle       := IntToBoolean(fieldByName('SAISIE_MANUELLE').AsInteger);
+                  NombreDigits            := fieldByName('NOMBRE_DIGITS').AsInteger;
+                  TagArticle              := iC;
+
+                  // Vérifier que les ressource et l'opération est présente pour les articles sélectionné
+                  if blnArticleVisim then
+                    begin
+                      if (Operation ='') or (Operation ='0') or (Ressource ='') or (Ressource ='0') then
+                        begin
+                          MessageBoxA(0,Pchar('ERREUR : La Ressource ou l''opération VISIM pour l''article ' + Designation + ' n''est pas renseigné dans la Base de donnée !'+#13+'  '),
+                                Pchar('Chargement produit'),0 + MB_ICONEXCLAMATION + 0);
+                          //exit;
+                        end;
+                    end;
+
+
+                  // Renseigner et configurer chaque article
+                  DTxtSerie     := TEdit(FMain.FindComponent('txtNumeroSerie' + IntToStr(iC)));
+                  DIndex        := TEdit(FMain.FindComponent('txtIndex' + IntToStr(iC)));
+                  DPartNumber   := TEdit(FMain.FindComponent('txtPN' + IntToStr(iC)));
+                  DDesignation  := TLabel(FMain.FindComponent('lblDesignation' + IntToStr(iC)));
+                  DGrpArticle   := TGroupBox(FMain.FindComponent('grpArticle' + IntToStr(iC)));
+
+                  DIndex.Text           := idArticle;
+                  DPartNumber.text      := CodeActia;
+                  DDesignation.Caption  := Designation;
+                  DGrpArticle.Caption   := 'Article ' + IntToStr(Ic);
+                  DTxtSerie.ReadOnly    := not(blnSaisieManuelle);
+
+                  // Signaler que l'article est désactivé de visim
+
+
+                  // Dans le cas de deux phases de travail afficher la phase encours
+                  if Phase = 2 then
+                    begin
+                      inc(intNbreArticlePhase2);
+                      bln2Phase := true;
+                    end;
+
+                end;
+              iC := Ic + 1;
+              next ;
+              result := true;
+            end;
+        end
+      else
+        begin
+          lblInfoColor('ERREUR : Pas d''articles associés avec le produit en cours'
+                        + #13#10 + 'Vérifier l''association des articles avec le produit en cours,R');
+        end;
+    end;
+
+end;
+
+
+
+//******************************************************************************
+// Reception de la lecture faite sur le port com et distribution vers le
+// le mode réimpression s'il est sélectionné sinon vers le traitement du n° de série
+procedure TFMain.DataDuPortCom(strScan: string );
+var
+  strResult: string;
+begin
+  lblInfo.Caption := '';
+  try
+    // Désactiver Lecture Code barre et mnuretour
+    blnEtatLecteurCB  := false;
+
+    // si le mode réimpression est activé
+    if blnReimpressionActive then
+       FReprintLabel.ReprintLabelScan(strScan)
+    else
+      VerificationNumeroSerie(strScan);
+
+  finally
+    // Réactiver Lecture Code barre
+    blnEtatLecteurCB := true;
+  end;
+
+end;
+
+
+//******************************************************************************
+// Gestion de l'affichage final suite au résultat de l'association produit
+procedure GestionPassFail(blnEtat: boolean);
+begin
+  with FMain.lblPassFail do
+    if blnEtat then
+      begin
+        Font.Color := clTeal;
+        Caption := 'PASS';
+        Fmain.intCountArticle := 0;
+        Visible := true;
+      end
+    else
+      begin
+        Font.Color := clRed;
+        Caption := 'FAIL';
+        Visible := true;
+      end;
+end;
+
+
+
+//******************************************************************************
+// Vérifier la validité et affecter le n° de série
+function TFMain.VerificationNumeroSerie(strSN: string): boolean;
+var
+  iC                  : word;
+  DNumSerie           : TCDEdit;
+  DShp                : TShape;
+  MsgPosition         : string;
+
+
+          //******************************************************************************
+          // Rechercher si le n° de série n'a pas déjà été utilisé (Contrôle Doublon complet)
+          function CtrlDoublonNumeroSerie(strTable, strNumserie, strColonne: string): boolean;
+            begin
+              result := false;
+              with CnxBdd.ZSelectFdb1 do
+                begin
+                  sql.Clear;
+                  sql.Add('SELECT ' + strColonne );
+                  sql.Add(' FROM ' + strTable);
+                  sql.Add(' WHERE ' + strColonne + '=' + quotedStr(strNumserie));
+                  Active := true;
+
+                  if RecordCount <> 0 then
+                    begin
+                      result := true;
+                      lblInfoColor('ERREUR : le n° de série "'+ strNumserie + '" à déjà été traité (Il existe dans la Bdd),R');
+                    end;
+                end;
+            end;
+
+
+
+
+begin
+  {
+    Controler que l'index est conforme à l'un des articles attendu
+    Faire le controle doublon du N° de serie
+    Vérifier que le sfc est à la bonne position sur le routeur
+    Récupérer à l'aide du n° série Boitier les informations de son contenu sur le poste précédent
+   }
+  lblInfo.Caption := '';
+  
+  result := false;
+
+  // Initialiser l'affichage si nouvelle série d'articles.
+  if intCountArticle = 0 then InitIHM;
+
+
+  // Parcourir les index à associer pour vérifier si le n° serie scanné correspond à un article
+  for iC := intDebutCount to NbreArticleDeLaPhase do
+    begin
+      if (rArticle[iC].idArticle = ExtractionString(strSN,rArticle[iC].PositionIndex)) then
+          begin
+
+            // Récupérer le text box correspondant
+
+            DNumSerie := TCDEdit(FMain.FindComponent('txtNumeroSerie' + IntToStr(rArticle[iC].TagArticle)));
+            DShp := TShape(FMain.FindComponent('Shp' + IntToStr(rArticle[iC].TagArticle)));
+            DShp.Visible := true;
+            DNumSerie.Refresh;
+
+            DShp.Brush.Color := clWhite;
+            Dshp.Refresh;
+
+            // Si un n° de série est présent dans le text box concernant ce n° de série :
+            // c'est que le compteur à déjà comptabilisé cet article, il faut décompter 1
+            if (DNumSerie.Text <> '') then
+              begin
+                Dec(intCountArticle);
+                DNumSerie.Text := '';
+              end;
+
+
+            // Vérifier le nombre de digits de l'article saisi
+            if (rArticle[iC].NombreDigits <> 0) and  (not(rArticle[iC].NombreDigits = length(strSN))) then
+              begin
+                lblInfoColor('ERREUR : le nombre de digits du n° de série de l''article "'+ strSN + '" ('+ IntToStr(length(strSN)) + ') ne correspond pas au nombre attendu : (' + IntToStr(rArticle[iC].NombreDigits) +'),R');
+                exit;
+              end;
+
+
+
+            // Passer le statut controle Visim dans une variable Bool pour être
+            // éventuellement modifié en cas de présence article dans la table reprise
+            // les articles en reprise sont déjà Done (terminé).
+            rArticle[iC].blnControleVisim := rArticle[iC].blnArticleVisim;
+
+            // Vérif doublons
+            if (rArticle[iC].ControleDoublon = 1) then
+              begin
+                // Vérifier que ce n° de série n'a pas déjà été Utilisé dansla table Association
+                if (CtrlDoublonNumeroSerie('ASSOCIATION_INTEGRATION_'+ IntToStr(intIdPoste),strSN,rArticle[iC].NomColonneArticle)) then
+                  begin
+                    lblInfoColor('ERREUR : le n° de série article "'+ strSN + '" à déjà été traité (Il existe dans la Bdd),R');
+                    exit;
+                  end;
+
+                // En cas de reprise suite à une dissociation
+                // Vérifier que ce n° de série existe dans la table Reprise Integration
+                // s'il existe ne pas faire de controle visiprise pour cet article
+                if (CtrlDoublonNumeroSerie('REPRISE_INTEGRATION_'+ IntToStr(intIdPoste),strSN,rArticle[iC].NomColonneArticle)) then
+                  begin
+                    if ControlerDoneSFC(strSN) then
+                      lblInfoColor(' Information : Article ayant fait l''objet d''une dissociation et possède le statut de terminé (Done),B')
+                    else
+                      lblInfoColor(' Information : Article ayant fait l''objet d''une dissociation,B');
+
+
+                    // Je pense que dans le cas ou l'article n'est pas Done on vérifie sa position pour faire un start complete
+                    // car le poste réparation aura fait un NC LOG
+
+                    rArticle[iC].blnControleVisim := false;
+                  end;
+              end;
+
+
+
+            // Si le produit et l'article doit faire l'objet d'un traitement VISIM
+            // Vérifier que le n° de série de l'article se trouve à la bonne position sur le routeur
+            if rProduit.blnPrdVisim then
+              begin
+                if rArticle[iC].blnControleVisim then
+                  begin
+                    if not(RktPositionSFC(strSN,rVisim.strSITE,rArticle[iC].Operation,MsgPosition)) then
+                      begin
+                        lblInfoColor('ERREUR rencontré lors de l''exécution de la requête "Position SFC",R');
+                        exit;
+                      end;
+                    if (pos(rArticle[iC].Operation,MsgPosition) >= 1) then
+                      begin
+                        // On ne fait rien l'opération existe à la bone position
+                      end
+                    else
+                      begin
+                        if MsgPosition = '' then
+                          begin
+                            if ControlerDoneSFC(strSN) then
+                              lblInfoColor('Erreur : Le n° de série article : "' + strSN + '" est terminé dans visiprise (Done)!,R')
+                            else
+                              lblInfoColor('Le n° de série article : "' + strSN + '" n''existe pas ou n''est pas "IN_QUEUE" dans visiprise !,R')
+                          end
+                        else
+                          begin
+                            lblInfoColor('Le n° de série article : "' + strSN + '" ne se trouve pas à la bonne opération sur le routeur " ' +#13+' POSITION = " ' + MsgPosition + ' ",R');
+                            exit;
+                          end;
+                      end;
+                  end;
+              end;
+
+
+             // Si l'article fait partie de la famille 1 Créer le n° de série du produit Fini à partir du n° de série boitier
+             if rArticle[iC].Famille = 1 then
+                begin
+                  rProduit.SfcProduitFini  := '';
+                  txtNewNumSerieProduit.Text := '';
+                  rProduit.SevenDigitSerie := '';
+                  rProduit.SevenDigitSerie := SeptDernierDigits(strSN);
+                  if rProduit.SevenDigitSerie = '' then
+                    begin
+                      lblInfoColor('ERREUR rencontré lors de la recherche des derniers digits du n° de série : " ' + strSN + ' ",R');
+                      exit;
+                    end;
+
+                  rProduit.SfcProduitFini := rProduit.IndexVisim + '/' + YearWWeek + '/' + rProduit.SevenDigitSerie;
+
+                  // Contrôle doublon des 7 derniers digits du n° de série parce que la semaine change pour le n° de série produit
+                  if (CtrlDoublonNumeroSerie('ASSOCIATION_INTEGRATION_'+ IntToStr(intIdPoste), rProduit.SevenDigitSerie,'NUMERO_SERIE_7D')) then
+                    begin
+                      lblInfoColor('ERREUR : le n° de série 7 digits ("'+ rProduit.SevenDigitSerie  + '") du produit existe dans la Bdd,R');
+                      exit;
+                    end;
+
+                  txtNewNumSerieProduit.Text := rProduit.SfcProduitFini;
+
+                  // Vérifier que ce n° nouveau n° de série se trouve à la bonne position sur le routeur
+                  if rProduit.blnPrdVisim then
+                    begin
+                      if not(RktPositionSFC(rProduit.SfcProduitFini,rVisim.strSITE,rProduit.Operation,MsgPosition)) then
+                        begin
+                          lblInfoColor('ERREUR rencontré lors de l''exécution de la requête "Position SFC",R');
+                          exit;
+                        end;
+                      if (pos(rProduit.Operation,MsgPosition) >= 1) or (MsgPosition = '')then
+                        begin
+                          // On ne fait rien l'opération existe à la bone position ou il n'est pas encore crée (il va être créé automatiquement)
+                          // Dans le cas d'une reprise il aura été remis in_queue par le poste reparation (dissociation)
+                        end
+                      else
+                        begin
+                          lblInfoColor('Le n° de série produit : "' + rProduit.SfcProduitFini + '" ne se trouve pas à la bonne opération sur le routeur' +#13+' POSITION = " ' + MsgPosition + ' ",R');
+                          exit;
+                        end;
+                    end;
+                end;
+
+
+            // Mettre le n° de série dans le textbox et dans le tableau des articles
+            DNumSerie.Text := strSN;
+            rArticle[iC].NumeroSerie := strSN;
+
+            // Mettre le voyant à vert et incrémenter le compteur;
+            DShp.Brush.Color := clLime;
+            Inc(intCountArticle);
+
+            DNumSerie.Refresh;DShp.Refresh;
+            result := true;
+
+            break;
+
+          end;
+      end;
+
+
+  if not result then
+    begin
+      lblInfoColor('ERREUR : le n° de série "'+ strSN + '" n''est pas attendu pour le produit en cours,R');
+      exit;
+    end;
+
+end;
+
+ 
+
+//******************************************************************************
+// Basculer de la Phase 1 vers la Phase 2
+procedure TFMain.Phase1ToPhase2;
+var
+  iC : integer;
+begin
+ { InitialisePhase(2);
+
+  lblPhase.Caption := 'Phase 1 Terminé......';
+
+  lblPhase.Caption := 'Contact Phase 1 ACTIVE'; Refresh;
+  // Actionner le contact Phase1 et Afficher Phase 1 OK
+  IO5E2S_Out(1,true);
+  sleep(2000);
+
+  IO5E2S_Out(1,false);
+
+  lblPhase.Caption := 'Phase 2 en cours......';
+
+
+
+  // Se mettre en Attente du scan du premier article de la phase 2
+
+  for iC := intDebutCount to NbreArticleDeLaPhase do
+     TGroupBox(FMain.FindComponent('grpArticle' + IntToStr(iC))).Visible := true;
+  }
+end;
+
+
+//******************************************************************************
+// Finaliser l'application
+function TFMain.TraitementAppli: boolean;
+var
+  iC     : integer;
+  MsgErr : string;
+
+begin
+  result := false;
+    {
+    Préparer l'étiquette à imprimer.
+    Enregistrer les datas dans la Bdd des produits assemblé
+    Faire un QuickComplete des articles sur le routeur
+    Passage à Done du boitier monté
+    Création du SFC sur le routeur produit fini
+    En cas d'erreur dans le déroulement faire un roll back et sortir.
+    Afficher PASS ou enregistrer dans la Bdd des produits Fail car réponse KO
+
+    }
+    // Préparer l'étiquette à imprimer
+    if blnImpressionActive then
+      if not ConstruireEtiquetteProduit then exit;
+
+    DebutTransaction(cnxBdd.ZCnxFdb1);
+
+    // Enregistrer les articles dans la base de données
+    if not EnregistrementData('PASS') then
+      begin
+        AnnulerTransaction(CnxBdd.ZCnxFdb1);
+        exit;
+      end;
+
+
+    // Validation dans visim
+    if rProduit.blnPrdVisim then
+      begin
+        // Création du nouveau produit dans Visprise
+        if not VISIM_Complete then
+          begin
+            AnnulerTransaction(CnxBdd.ZCnxFdb1);
+            lblInfoColor('ERREUR lors de la validation du Cie dans VISIM (QuickComplete)' + MsgErr+ ',R');
+            exit;
+          end;
+
+        // Valider les articles
+        for iC := 1 to IntNbreArticle do
+          begin
+            if rArticle[iC].blnControleVisim then
+              if not VISIM_QuickCompleteArticle(iC) then
+                begin
+                  AnnulerTransaction(CnxBdd.ZCnxFdb1);
+                  exit;
+                end;
+          end;
+      end;
+
+
+
+   // Finaliser l'enregistrement des datas
+   ValiderTransaction(CnxBdd.ZCnxFdb1);
+   result := true;
+
+   
+
+end;
+
+
+
+//******************************************************************************
+// A l'aide du nom du Champ, retourne la valeur du n° serie carte enregistré dans le tableau des articles
+function ValeurChamp(strChamp: string): string;
+var
+  iC : integer;
+begin
+  result := '';
+  for iC := 1 to  FMain.intNbreArticle do
+    if strChamp = rArticle[iC].NomColonneArticle then
+      result := rArticle[iC].NumeroSerie;
+
+end;
+
+//******************************************************************************
+//  Enregistrer toutes les données du produit courant dans la Bdd
+function TFMain.EnregistrementData(Statut: string): boolean;
+begin
+  result := false;
+  rProduit.DataAssociation := '';
+  try
+    with CnxBdd.ZWriteFdb1 do
+      begin
+        sql.Clear;
+        case intIdPoste of
+          1:begin // Association 1
+              if Statut = 'PASS' then sql.Add('INSERT INTO ASSOCIATION_INTEGRATION_1') else sql.Add('INSERT INTO FAIL_INTEGRATION_1') ;
+              //sql.Add(' (NUMERO_SERIE_7D,SFC_BOITIER_MONTE_DCDC,REF_PRODUIT,DESIGNATION_1,NUM_SERIE_POWER,NUM_SERIE_AUX,DATE_HEURE,PATH_LABEL_IMPRIME)');
+              sql.Add(' VALUES (');
+              sql.Add('NULL' + ',');                    //Champ auto-incrément
+
+              rProduit.DataAssociation := Format('''%s'',''%s'',''%s'',''%s'',''%s'',''%s'',''%s'',''%s''',
+                                                  [ rProduit.SevenDigitSerie,
+                                                    rProduit.SfcProduitFini,
+                                                    rProduit.CodeActia,
+                                                    rProduit.Designation1,
+                                                    ValeurChamp('NUM_SERIE_POWER'),
+                                                    ValeurChamp('NUM_SERIE_AUX'),
+                                                    FormatDateTime('mm/dd/yyyy hh:mm:ss',now),
+                                                    rPrint.PathNameFichierZPL
+                                                  ])+')';
+
+
+             sql.Add(rProduit.DataAssociation);
+            end;
+
+          2:begin // Association 2
+              if Statut = 'PASS' then sql.Add('INSERT INTO ASSOCIATION_INTEGRATION_2') else sql.Add('INSERT INTO FAIL_INTEGRATION_2') ;
+              //sql.Add(' (NUMERO_SERIE_7D,SFC_BOITIER_MONTE_CONTROLEUR,REF_PRODUIT,DESIGNATION_1,NUM_SERIE_INVERTER,NUM_SERIE_DEFLASHAGE,SFC_BOITIER_MONTE_DCDC,NUM_SERIE_SUPERVISEUR,DATE_HEURE,PATH_LABEL_IMPRIME)');
+              sql.Add(' VALUES (');
+              sql.Add('NULL' + ',');                    //Champ auto-incrément
+              rProduit.DataAssociation := Format('''%s'',''%s'',''%s'',''%s'',''%s'',''%s'',''%s'',''%s'',''%s'',''%s''',
+                                                    [ rProduit.SevenDigitSerie,
+                                                      rProduit.SfcProduitFini,
+                                                      rProduit.CodeActia,
+                                                      rProduit.Designation1,
+                                                      ValeurChamp('NUM_SERIE_INVERTER'),
+                                                      ValeurChamp('NUM_SERIE_DEFLASHAGE'),
+                                                      ValeurChamp('SFC_BOITIER_MONTE_DCDC'),
+                                                      ValeurChamp('NUM_SERIE_SUPERVISEUR'),
+                                                      FormatDateTime('mm/dd/yyyy hh:mm:ss',now),
+                                                      rPrint.PathNameFichierZPL
+                                                    ])+')';
+             sql.Add(rProduit.DataAssociation);
+            end;
+
+          3:begin // Association 3
+              if Statut = 'PASS' then sql.Add('INSERT INTO ASSOCIATION_INTEGRATION_3') else sql.Add('INSERT INTO FAIL_INTEGRATION_3') ;
+              //sql.Add(' (SFC_BOITIER_MONTE_POWERTRAIN,REF_PRODUIT,DESIGNATION_1,SFC_BOITIER_MONTE_CONTROLEUR,NUM_SERIE_MOTOREDUCTEUR,DATE_HEURE,PATH_LABEL_IMPRIME)');
+              sql.Add(' VALUES (');
+              sql.Add('NULL' + ',');                    //Champ auto-incrément
+              rProduit.DataAssociation := Format('''%s'',''%s'',''%s'',''%s'',''%s'',''%s'',''%s'',''%s'',''%s''',
+                                                  [ rProduit.SevenDigitSerie,
+                                                    rProduit.SfcProduitFini,
+                                                    rProduit.CodeActia,
+                                                    rProduit.Designation1,
+                                                    ValeurChamp('SFC_BOITIER_MONTE_CONTROLEUR'),
+                                                    ValeurChamp('NUM_SERIE_MOTOREDUCTEUR'),
+                                                    FormatDateTime('mm/dd/yyyy hh:mm:ss',now),
+                                                    rPrint.PathNameFichierZPL,
+                                                    0
+                                                  ])+')';
+              sql.Add(rProduit.DataAssociation);
+            end;
+
+        end; // fin case of
+
+  // showmessage(sql.Text);
+
+        try
+          ExecSql;
+          result := true;
+        except
+          on E: Exception do
+            begin
+              lblInfoColor('ERREUR lors de l''enregistrement (INSERT  '+ Statut + ') des données '+#13 + E.Message  +',R');
+            end;
+        end;
+      end;
+  except
+    on E: Exception do
+      begin
+        lblInfoColor('ERREUR lors de la construction de la requête " EnregistrementDataProduit "'+#13 + E.Message  +',R');
+      end;
+  end;
+end;
+
+
+//******************************************************************************
+// Effectuer le passage des articles CIE à l'opération d'intégration
+function TFMain.VISIM_QuickCompleteArticle(intIc: integer): boolean;
+var
+  MsgErr: PChar;
+begin
+  result := false;
+  if INTERLOCK_QuickComplete(
+      PChar(rVisim.strInterBlocage),
+      PChar(rVisim.strSITE),
+      PChar(rArticle[intIc].NumeroSerie),
+      PChar(rArticle[intIc].Ressource),
+      PChar(rArticle[intIc].Operation),
+      PChar(rVisim.strUSER)) then
+    begin
+      result := true;
+    end
+  else
+    begin
+      lblInfoColor('ERREUR lors de la validation du Cie dans VISIM (QuickCompleteArticle)' + String(INTERLOCK_GetLastResponse)+ ',R');
+    end;
+
+end;
+
+
+//******************************************************************************
+// Effectuer le Start dans visim
+function TFMain.VISIM_Start: boolean;
+var
+  strInWork: string;
+  strRetour: string;
+
+begin
+  result := false;
+  //with rVisim, rProduit do
+  //showmessage(strInterBlocage +' ; '+  strSITE +' ; '+ SfcProduitFini  +' ; '+ Ressource  +' ; '+Operation+' ; '+strUSER);
+  if INTERLOCK_Start(
+      PChar(rVisim.strInterBlocage),
+      Pchar(rVisim.strSITE),
+      PChar(rProduit.SfcProduitFini),
+      PChar(rProduit.Ressource),
+      PChar(rProduit.Operation),
+      PChar(rVisim.strUSER)) then result := true
+  else
+    begin
+      // Vérifier si le SFC est in Work pour le réinitialiser
+      strRetour := INTERLOCK_GetLastResponse;
+      strInWork := 'It is in work at "'+ rProduit.Operation +'"' ;
+      if pos(strInWork,strRetour) >1 then
+        begin
+          // Faire un Fail pour le repositionner in Queue à cette opération = ncLogComplete
+          // enregistrer le fait que le SFC était déja InWork et ne pas toucher
+          result := true;
+        end
+      else
+        begin
+          lblInfoColor('ERREUR lors de la validation du Cie dans VISIM (VISIM_Start)' + String(strRetour)+ ',R');
+        end;
+    end;
+
+end;
+
+
+//******************************************************************************
+// Indiquer le défaut constaté et terminer l'opération
+function TFMain.VISIM_NcLogComplete(strNcCode: string): boolean;
+var
+  MsgErr: PChar;
+begin
+  result := false;
+  if INTERLOCK_NcLogComplete(
+      PChar(rVisim.strInterBlocage),
+      Pchar(rVisim.strSITE),
+      PChar(rProduit.SfcProduitFini),
+      PChar(rProduit.Ressource),
+      PChar(rProduit.Operation),
+      PChar(rVisim.strUSER),
+      PChar(strNcCode),
+      '','','','') then
+    begin
+      result := true;
+    end
+  else
+    begin
+      lblInfoColor('ERREUR lors de la validation du Cie dans VISIM (VISIM_NcLogComplete)' + String(INTERLOCK_GetLastResponse)+ ',R');
+    end;
+
+end;
+//******************************************************************************
+// Effectuer le COMPLETE
+function TFMain.VISIM_Complete: boolean;
+var
+  MsgErr: PChar;
+begin
+  result := false;
+  if INTERLOCK_Complete(
+      PChar(rVisim.strInterBlocage),
+      Pchar(rVisim.strSITE),
+      PChar(rProduit.SfcProduitFini),
+      PChar(rProduit.Ressource),
+      PChar(rProduit.Operation),
+      PChar(rVisim.strUSER)) then
+    begin
+      result := true;
+    end
+  else
+    begin
+      lblInfoColor('ERREUR lors de la validation du Cie dans VISIM (VISIM_Complete)' + String(INTERLOCK_GetLastResponse)+ ',R');
+    end;
+
+end;
+
+
+//******************************************************************************
+// Initialiser l'affichage des articles avec n° de série p
+procedure TFMain.mnuInitialiserClick(Sender: TObject);
+begin
+  if blnBreakTimer then InitIHM;
+  blnBreakTimer := true;
+end;
+
+procedure TFMain.InitIHM;
+var
+  iC: word;
+  DTxtBox: TEdit;
+  DShp: TShape;
+begin
+  InitialisePhase(1);
+  intCountArticle := 0;
+  lblPassFail.Visible := false;
+  lblInfo.Caption := '';
+  txtNewNumSerieProduit.Text := '';
+  rProduit.SfcProduitFini := '';
+  
+  shpMiniControle.Brush.Color := clWhite;
+  shpMiniSanction.Brush.Color := clWhite;
+
+  blnDepartPhase2 := false;
+  TimerClignoter.Enabled := false;
+  blnFail := false;
+  rPrint.PathNameFichierZPL := '';
+
+  for iC := 1 to intNbreArticle do
+    begin
+      DTxtBox := TEdit(FMain.FindComponent('txtNumeroserie' + IntToStr(rArticle[iC].TagArticle)));
+      DShp := TShape(FMain.FindComponent('Shp' + IntToStr(rArticle[iC].TagArticle)));
+      DTxtBox.Text := '';
+      DShp.Brush.Color := clWhite;
+      DShp.Visible := false;
+      rArticle[iC].NumeroSerie := '';
+    end;
+
+end;
+
+
+//******************************************************************************
+// AFFICHAGE DES ERREURS
+// Gestion des erreurs et de la couleur d'affichage du label info
+procedure TFMain.lblInfoColor(strInfos: string);
+var
+  strColor: string;
+begin
+  strColor := RightStr(strInfos,1);
+  lblInfo.Caption := LeftStr(Trim(strInfos),Length(strInfos)-2);
+  if (strcolor = 'B') or (strcolor = 'b') then
+    begin
+      lblInfo.Font.Color := clBlue;
+      exit;
+    end
+  else
+    if (strColor = 'R') or (strColor = 'r') then
+        begin
+          lblInfo.Font.Color := clRed;
+          exit;
+        end;
+end;
+
+//******************************************************************************
+//  QUITTER L'APPLICATION POUR RETOURNER à LA FICHE DE SELECTION PRODUIT
+//******************************************************************************
+procedure QuitterIHM;
+begin
+  FSelectProduit.visible := true;
+  FMain.ModalResult := mrOk;
+
+  // Initialiser la connexion visim
+  //DeconnexionMonHttp;
+  // FMain.Visible := false;
+
+end;
+//******************************************************************************
+// Quitter l'application
+procedure TFMain.mnuRetourClick(Sender: TObject);
+begin
+  sequence := 0;
+  if TimerScrute.Enabled then TimerScrute.Enabled := false;
+  if TimerAutorisation.Enabled then TimerAutorisation.Enabled := false;
+  if TimerClignoter.Enabled then TimerClignoter.Enabled := false;
+     
+  //blnResize := false;
+  //WritePositionForm('POS_RESIZE',self);
+  QuitterIHM;
+end;
+
+
+//******************************************************************************
+// Gestion de l'affichage selon le nombre d'articles
+procedure TFMain.MisaAjourIHM(intNbre: integer);
+var
+  Offset, MaxHeight, MaxInfo, MaxAutomate: integer;
+
+begin
+  Offset      := 52;
+  MaxHeight   := 842;
+  MaxInfo     := 666;
+  MaxAutomate := 580;
+
+  case intNbre of
+    1:begin
+        grpArticle2.Visible := false;
+        grpArticle3.Visible := false;
+        grpArticle4.Visible := false;
+        grpArticle5.Visible := false;
+        grpArticle6.Visible := false;
+        grpArticle7.Visible := false;
+        grpArticle8.Visible := false;
+        grpPassFail.Top:= 135;
+        grpAutomate.Top := MaxAutomate - (5* Offset);
+        grpinfo.Top := MaxInfo - (5* Offset);
+        Height := MaxHeight - (5* Offset);
+
+      end;
+    2:begin
+        grpArticle3.Visible := false;
+        grpArticle4.Visible := false;
+        grpArticle5.Visible := false;
+        grpArticle6.Visible := false;
+        grpArticle7.Visible := false;
+        grpArticle8.Visible := false;
+        grpPassFail.Top:= 135;
+        grpAutomate.Top := MaxAutomate - (5* Offset);
+        grpinfo.Top := MaxInfo - (5* Offset);
+        Height := MaxHeight - (5* Offset);
+      end;
+    3:begin
+        grpArticle4.Visible := false;
+        grpArticle5.Visible := false;
+        grpArticle6.Visible := false;
+        grpArticle7.Visible := false;
+        grpArticle8.Visible := false;
+        grpPassFail.Top:= 160;
+        grpAutomate.Top := MaxAutomate - (5* Offset);
+        grpinfo.Top := MaxInfo - (5* Offset);
+        Height := MaxHeight - (5* Offset);
+      end;
+    4:begin
+        grpArticle5.Visible := false;
+        grpArticle6.Visible := false;
+        grpArticle7.Visible := false;
+        grpArticle8.Visible := false;
+        grpPassFail.Top:= 190;
+        grpAutomate.Top := MaxAutomate - (4* Offset);
+        grpinfo.Top := MaxInfo - (4* Offset);
+        Height := MaxHeight - (4* Offset);
+      end;
+    5:begin
+        grpArticle6.Visible := false;
+        grpArticle7.Visible := false;
+        grpArticle8.Visible := false;
+        grpPassFail.Top:= 210;
+        grpAutomate.Top := MaxAutomate - (3* Offset);
+        grpinfo.Top := MaxInfo - (3* Offset);
+        Height := MaxHeight - (3* Offset);
+      end;
+    6:begin
+        grpArticle7.Visible := false;
+        grpArticle8.Visible := false;
+        grpPassFail.Top:= 245;
+        grpAutomate.Top := MaxAutomate - (2* Offset);
+        grpinfo.Top := MaxInfo - (2* Offset);
+        Height := MaxHeight - (2* Offset);
+       end;
+    7:begin
+        grpArticle8.Visible := false;
+        grpPassFail.Top:= 245;
+        grpAutomate.Top := MaxAutomate - (1* Offset);
+        grpinfo.Top := MaxInfo - (1* Offset);
+        Height := MaxHeight - (1* Offset);
+      end;
+
+    8:begin
+        grpPassFail.Top:= 245;
+        grpinfo.Top := MaxInfo;
+        Height := MaxHeight;
+      end;
+
+   end;
+  
+  if bln2Phase then lblPhase.Visible := true;
+
+
+    left :=(Screen.Width Div 2) - (Width Div 2);
+    top  :=((Screen.Height - HauteurBarreDeTache) Div 2) - (Height Div 2);
+end;
+
+
+
+
+//******************************************************************************
+// Visualiser le message d'erreur
+procedure TFMain.LoupeClick(Sender: TObject);
+begin
+  Application.CreateForm(TDlgErreur, DlgErreur);
+  DlgErreur.memo1.Clear;
+  DlgErreur.memo1.Lines.Add(lblinfo.Caption);
+  DlgErreur.ShowModal;
+  DlgErreur.Free;
+end;
+
+
+//******************************************************************************
+// Menu réimpression
+procedure TFMain.mnuReprintClick(Sender: TObject);
+begin
+  if TLoginForm.Execute then
+    begin
+      //Afficher l'interface de réimpression
+      FReprintLabel.visible := true;
+      FMain.Visible := false;
+      blnReimpressionActive := true;
+    end;
+end;
+
+//******************************************************************************
+// Redimmensionner la fiche
+procedure TFMain.FormResize(Sender: TObject);
+begin
+  //if blnResize then FormResizer1.ResizeAll;
+end;
+
+
+
+//******************************************************************************
+// Traitement de l'application
+procedure TFMain.DoLoop;
+var
+  Car           : Char;
+  iCount        : word;
+  DNumSerie     :TCDEdit;
+  CheminComplet : string;
+  
+begin
+  Application.ProcessMessages;
+
+            if IO5E2S_In(3) then DB_WriteStrLn(0, 'DoLoop IN_3(FAIL) vient d''être activé');
+            if IO5E2S_In(4) then DB_WriteStrLn(0, 'DoLoop IN_4(PASS) vient d''être activé');
+
+    // Fail
+    if (rproduit.Automate) and (IO5E2S_In(3)) and (not blnFail) then
+      begin
+        sequence := 100;
+      end;
+
+
+    if memoSeq <> sequence then
+        begin
+          DB_WriteStrLn(0, 'Doloop SEQUENCE = ' + IntToStr(Sequence)) ;
+          memoSeq := Sequence;
+        end;
+
+                                                      
+  case Sequence of
+    0 : begin
+          mlePortCOM.ComPort1.PurgeRX;
+          strLeBuffer := '';
+          Sequence := 10;
+        end;
+
+    //********************// Reception info Port Com
+    10: begin
+          while mlePortCOM.ComPort1.InBufUsed <> 0 do
+            begin
+              DB_WriteStrLn(0, 'Réception des caractères sur le port com');
+              Car := mlePortCOM.ComPort1.ReadChar;
+              if Car in [' ','-','_','/','0'..'9','A'..'Z','a'..'z'] then strLeBuffer := strLeBuffer + Car;
+
+              if Car = #$0D then
+                begin
+                  if blnReimpressionActive then
+                    begin
+                      sequence := 0;
+                      FReprintLabel.txtScanReprint.Text := strLeBuffer;
+                    end
+                  else
+                    begin
+                      lblInfo.Caption := '';
+                      // Verifier la validité du n° de série scanné
+                      DB_WriteStrLn(0, 'Vérification de la validité du n° de série scanné  ' + strLeBuffer);
+                      if VerificationNumeroSerie(strLeBuffer) then sequence := 20 else sequence := 0;
+                      DB_WriteStrLn(0, 'N° de série vérifié et prochaine seq = ' + IntToStr(Sequence)) ;
+                    end;
+                  strLeBuffer := '';
+                end;
+            end;
+
+          // vérifier si pas de fail de la part de l'automate lors de la séquence de vissage réalisé entre phase 1 et phase 2 
+          //if Sequence = 10 then sequence := 100;
+
+            // Vérifier l'état du Pass à chaque passage
+          // if IO5E2S_In(4) then DB_WriteStrLn(0, 'IN_4(PASS) vient d''être activé');
+
+          {if blnBreakTimer or  IO5E2S_In(3) then
+            begin
+              sequence := 60;
+              DB_WriteStrLn(0, 'Fail ou Initialisation détectée et prochaine seq = ' + IntToStr(Sequence));
+            end;
+           }
+
+
+        end;
+
+    //********************// Gestion des produits avec une ou deux Phases de montage
+    20: begin
+          sequence := 10;
+          // Vérifier la présence des saisies pour les textbox avec autorisation de saisie Manuelle (car possibilté d'effacement)
+          if intCountArticle = NbreArticleDeLaPhase then
+          begin
+            DB_WriteStrLn(0, 'Nombre d''articles de la phase atteint = ' + IntToStr(Sequence)) ;
+
+            for iCount := intDebutCount to NbreArticleDeLaPhase do
+              begin
+                if rArticle[iCount].blnSaisieManuelle then
+                  begin
+                    DNumSerie := TCDEdit(FMain.FindComponent('txtNumeroSerie' + IntToStr(rArticle[iCount].TagArticle)));
+                    if DNumSerie.Text = '' then
+                      begin
+                        lblInfoColor('Veuillez faire la saisie de tous les articles ,R'); //'+ inttostr(intCountArticle) +'
+                        dec(intCountArticle);
+                        DNumSerie.setfocus;
+                        exit;
+                      end;
+                  end;
+               end;
+            end;
+            
+          // Validation Phase 1
+          if (bln2Phase) then
+            begin
+              if (intCountArticle = intNbreArticle - intNbreArticlePhase2) then
+                begin
+                  DB_WriteStrLn(0, 'Nombre d''articles de la phase 1 atteint = ' + IntToStr(Sequence)) ;
+                  if rproduit.Automate then   // AUTOMATE
+                    begin
+                      // Actionner le contact Phase1 Autorisation de montage phase 1
+                      shpControle.Brush.Color := clGreen;
+                      shpMiniControle.Brush.Color := clGreen;
+                      intClignoter := 1;
+                      TimerClignoter.Enabled := true;
+
+                      // Start VISM  et lancer timer autorisation
+                      if (rProduit.blnPrdVisim and VISIM_START) or (not rProduit.blnPrdVisim) then
+                        begin
+                          TimerAutorisation.Enabled := true;
+                          IO5E2S_Out(1,true);
+                          sequence := 30;
+                          DB_WriteStrLn(0, 'Sortie 1 Activé et prochaine seq = ' + IntToStr(Sequence)) ;
+                        end;
+                    end;
+                end;
+            end;
+
+
+          // Modifier l'affichage pour indiquer la phase en cours
+          if blnDepartPhase2 then
+                begin
+                  blnDepartPhase2 := false;
+                  TimerClignoter.Enabled := false;
+                  lblPhase.Font.Color := clGreen;
+                  lblPhase.Visible := true; lblPhase.Caption := 'Phase 2';
+                  shpControle.Brush.Color := clWhite;
+                  shpMiniControle.Brush.Color := clWhite;
+                end;
+
+
+          // Lorsque la saisie de tous les articles est terminée
+          if intCountArticle = intNbreArticle then
+            begin
+              DB_WriteStrLn(0, 'Nombre d''articles de la phase 2 atteint ') ;
+              if rproduit.Automate then   // AUTOMATE
+                begin
+                  shpControle.Brush.Color := clGreen;
+                  shpMiniControle.Brush.Color := clGreen;
+                  intClignoter := 1;
+                  TimerClignoter.Enabled := true;
+
+                  if (bln2Phase) then
+                    begin
+                      TimerAutorisation.Enabled := true;
+                      IO5E2S_Out(2,true);
+                      sequence := 40;
+                      DB_WriteStrLn(0, 'Fermeture Sortie 2');
+                    end
+                  else
+                    // Start VISM pour le produit et lancer timer autorisation
+                    if ((rProduit.blnPrdVisim) and (VISIM_START)) or (not rProduit.blnPrdVisim) then
+                      begin
+                        TimerAutorisation.Enabled := true;
+                        IO5E2S_Out(1,true);
+                        sequence := 30;
+                        DB_WriteStrLn(0, 'Fermeture Sortie 1');
+                      end;
+                end
+              else
+                begin
+                  if ((rProduit.blnPrdVisim) and (VISIM_START)) or ( not rProduit.blnPrdVisim) then
+                    sequence := 80   // Pass
+                  else
+                    sequence := 70;  // Fail
+                end;  
+            end;
+        end;
+
+
+
+    //********************// Fin de l'action sur le contact de l'autorisation de montage phase 1
+    30: begin
+          if not TimerAutorisation.Enabled then
+            begin
+              IO5E2S_Out(1,false);
+              TimerClignoter.Enabled := false;
+              shpControle.Visible := false;
+              sequence := 0;
+              DB_WriteStrLn(0, 'Sortie 1 DESACTIVE et prochaine seq = ' + IntToStr(Sequence)) ;
+
+              if (bln2Phase) then
+                begin
+                  blnDepartPhase2 := true;
+                  intClignoter := 3;
+                  lblPhase.Font.Color := clBlue;
+                  lblPhase.Caption := 'Phase 1 en cours ...';  // Montage Phase 1
+                  TimerClignoter.Enabled := true;
+                  lblInfoColor('Saisir les articles de la phase 2 aprés la fin des opérations de vissage de la phase 1,B');
+
+                  // Se mettre en Attente du scan du premier article de la phase 2
+                  InitialisePhase(2);
+                  blnStatutIn5 := true;
+                  sequence := 51;
+                  DB_WriteStrLn(0, 'Initialisation Phase 2 et prochaine seq = ' + IntToStr(Sequence) );
+                end
+              else
+                sequence := 50;
+            end;
+        end;
+
+
+
+    //********************// Fin de l'action sur le contact de l'autorisation de montage phase 2
+    40: begin
+          if not TimerAutorisation.Enabled then
+            begin
+              IO5E2S_Out(2,false);
+              TimerClignoter.Enabled := false;
+              shpControle.Visible := false;
+              sequence := 50;
+              DB_WriteStrLn(0, 'Sortie 1 DESACTIVE et prochaine seq = ' + IntToStr(Sequence)) ;
+            end;
+        end;
+
+
+    //********************// Lancer l'attente sanction de l'automate
+    50: begin
+          lblphase2.Visible := false;
+          intClignoter := 2;
+          shpSanction.Brush.Color := clYellow;
+          shpMiniSanction.Brush.Color := clYellow;
+          TimerClignoter.Enabled := true;
+          blnBreakTimer := false;
+          blnFail := false;
+          sequence := 60;
+          DB_WriteStrLn(0, 'Attente Sanction de l''automate et prochaine seq = ' + IntToStr(Sequence));
+        end;
+
+
+    //******************** // Attente signal fin sequence de vissage phase 1 pour scanner les articles de la phase 2
+    51: begin
+          if IO5E2S_In(5) and blnStatutIn5 then
+            begin
+              blnStatutIn5 := false;
+              intClignoter := 6;
+              TimerClignoter.Enabled := true;
+              lblinfo.Caption := 'Phase 1 terminé, vous pouvez scanner les articles de la phase 2';
+              sequence := 10;
+              DB_WriteStrLn(0, 'Fin de la phase 1 détecté et prochaine seq = ' + IntToStr(Sequence) );
+            end;
+
+        end;
+
+
+    //******************** // Attente Sanction de l'outillage
+    60: begin
+          // Vérfier qu'une initialisation manuelle n'a pas été demandé
+          if blnBreakTimer then
+            begin
+              blnFail := true;
+              lblinfo.Caption := 'Annulation du cycle demandé par l''opérateur';
+              if (rProduit.blnPrdVisim) then VISIM_NcLogComplete('INT_POSTE');
+            end;
+
+          if IO5E2S_In(3)then
+            begin
+              blnFail := true;
+              blnBreakTimer := true;
+              lblinfo.Caption := 'Réponse FAIL de l''automate';
+              if (rProduit.blnPrdVisim) then VISIM_NcLogComplete('INT_AUTOMATE');
+
+              DB_WriteStrLn(0, 'OUTILLAGE a renvoyé (Fermeture de (In3) = FAIL');
+            end;
+
+          // FAIL
+          if blnFail then
+            begin
+              blnDepartPhase2 := false;
+              TimerClignoter.Enabled := false;
+              shpMiniSanction.Brush.Color := clRed;
+              shpSanction.Visible := false;
+              sequence := 70;
+              DB_WriteStrLn(0, 'Traitement du FAIL');
+            end;
+
+          // PASS
+          if IO5E2S_In(4)then
+            begin
+              TimerClignoter.Enabled := false;
+              shpMiniSanction.Brush.Color := clGreen;
+              shpSanction.Visible := false;
+              sequence := 80;
+
+              DB_WriteStrLn(0, 'OUTILLAGE a renvoyé (Fermeture de (In4) = PASS');
+            end;
+        end;
+
+
+    //******************** // FAIL NcLog Complete + enregistrement
+    70: begin
+          sequence := 0;
+          EnregistrementData('FAIL');
+          GestionPassFail(false);
+          intCountArticle := 0;  // pour permettre de recommencer
+
+          DB_WriteStrLn(0, 'Produit FAIL');
+        end;
+
+    //******************** // PASS Complete + Enregistrement et impression
+    80: begin
+          sequence := 0;
+          if TraitementAppli then
+            begin
+              GestionPassFail(true);
+              // Impression de l'étiquette
+              if blnImpressionActive then ImprimerFichierZPL(rPrint.PathNameFichierZPL);
+              intCountArticle := 0;
+
+
+              // Faire un enregistrement de l'association dans le fichier Log
+              CheminComplet := PathLog +'\'+ FormatDateTime('yyyy',Now) + '\' + 'POSTE_'+ IntToStr(intIdPoste) + '\';
+              if (CreatePath(CheminComplet)) and
+               (not LogLine(CheminComplet + FormatDateTime('mmmm',Now)+ '.log', rProduit.DataAssociation)) then
+                lblInfoColor('Erreur rencontré lors de l''écriture des données de log de l''association,B');
+
+              DB_WriteStrLn(0, 'Produit PASS');
+            end;
+        end;
+
+
+   //******************** // Init envoyé par l'automate pendant les séquences de vissage
+   100: begin
+         { sequence := 10;
+
+          // Vérifier l'état du Pass à chaque passage
+          //if IO5E2S_In(4) then DB_WriteStrLn(0, 'IN_4(PASS) vient d''être activé');
+
+          Inc(iC_Debug);
+          if  iC_Debug = 400 then
+            begin
+              DB_WriteStrLn(0, 'Passage dans la séquence 100 (200 fois)') ;
+              iC_Debug := 0;
+            end;
+          }
+          // Détecter si un fail est activé
+          //if (rproduit.Automate) and (IO5E2S_In(3)) and (not blnFail) then
+          //  begin
+              blnDepartPhase2 := false;
+              TimerClignoter.Enabled := false;
+              lblPhase.Caption := '';
+              blnBreakTimer := true;
+              lblinfo.Caption := 'Réception FAIL de l''automate';
+              GestionPassFail(false);
+              intCountArticle := 0;
+              sequence := 0;
+              DB_WriteStrLn(0, 'Reception Fail en sequence 100');
+          // end
+
+        end;
+
+  end; // Fin Case Of
+
+  // Application.ProcessMessages;
+end;
+
+
+
+//******************************************************************************
+// Gestion du clignotement des shapes et des labels
+procedure TFMain.TimerClignoterTimer(Sender: TObject);
+begin
+  TimerClignoter.Enabled := false;
+  try
+    case  intClignoter  of
+      0 : exit;
+      1:begin
+          shpControle.Visible := not shpControle.Visible;
+          exit;
+        end;
+
+      2:begin
+          shpSanction.visible := not shpSanction.visible;
+          exit;
+        end;
+
+      3:begin
+          lblphase.Visible := not lblphase.Visible;
+          exit;
+        end;
+
+      4:begin
+          //frmDefaut.lblCapot.Visible := not frmDefaut.lblCapot.Visible;
+          exit;
+        end;
+
+      5:begin
+          //frmDefaut.shpControleCam1.visible := not frmDefaut.shpControleCam1.visible;
+          exit;
+        end;
+
+      6:begin
+          lblphase2.Visible := not lblphase2.Visible;
+          exit;
+        end;
+    end;
+
+  finally
+    TimerClignoter.Enabled := true;
+  end;
+end;
+
+
+
+//******************************************************************************
+// Timer de scrutation
+procedure TFMain.TimerScruteTimer(Sender: TObject);
+begin
+  TimerScrute.Enabled := false;
+  DoLoop;
+  TimerScrute.Enabled := true;
+end;
+
+
+procedure TFMain.TimerAutorisationTimer(Sender: TObject);
+begin
+  TimerAutorisation.Enabled := false;
+end;
+
+
+
+
+//******************************************************************************
+// Validation de la saisie manuelle des n° de série
+procedure TFMain.ValidationManuelle(Sender: TObject; var Key: Char);
+var
+  iC            : word;
+  DShp          : TShape;
+  strSaisie     : string;
+  
+begin
+  if TCDEdit(sender).ReadOnly then exit;
+
+  if not (Key in ['0'..'9','A'..'Z','a'..'z','-','_',' ',Chr(VK_BACK), Chr(VK_DELETE),chr(VK_RETURN)]) then Key := #0;
+
+  if (Key = chr(VK_RETURN)) then
+    begin
+      key := #0;
+      strSaisie := TCDEdit(sender).Text;
+
+      // Eteindre le voyant s''il s'agit d'une deuxieme saisie et décompter le nombre d'article
+      if intCountArticle <> 0 then
+        begin
+          for iC := intDebutCount to NbreArticleDeLaPhase do
+            if TCDEdit(sender).Name = 'txtNumeroSerie' + IntToStr(rArticle[iC].TagArticle) then
+              begin
+                DShp := TShape(FMain.FindComponent('Shp' + IntToStr(rArticle[iC].TagArticle)));
+                  if DShp.Brush.Color = clLime then
+                    begin
+                      DShp.Brush.Color := clWhite;
+                      if intCountArticle > 0 then dec(intCountArticle);
+                    end;
+               end;
+        end
+      else if intCountArticle = 0 then InitIHM;
+
+
+
+      // Verifier la validité du n° de série saisi
+      if strSaisie = '' then exit;
+      TCDEdit(sender).Text:= '';   // comme si l'info arrive du port com afin de maintenir a jour le compteur d'article
+      if VerificationNumeroSerie(UpperCase(strSaisie)) then sequence := 20 else sequence := 0;
+    end;
+end;
+
+
+
+//******************************************************************************
+// Forcer le DoLoop à prendre en compte la séquence de scan
+procedure TFMain.cmdScan2Click(Sender: TObject);
+var
+  strChemin, DataLog: string;
+begin
+  Datalog := FormatDateTime('mm/dd/yyyy hh:mm:ss',now) + '   La séquence courante est : '+ IntToStr(sequence);
+
+  // Enregistre la situation actuelle pour comprendre d'ou vient l'erreur ?
+  strChemin := ExtractFilePath(Application.ExeName)+'SCAN_DCDC.txt' ;
+ // if not FileExists(strChemin)then fileCreate(strChemin);
+  if not LogLine(strChemin,DataLog) then
+    lblInfoColor('Erreur rencontré lors de l''écriture des données de log de l''association,B');
+
+
+  sequence := 51;
+
+end;
+
+end.
